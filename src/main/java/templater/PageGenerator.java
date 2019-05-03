@@ -1,4 +1,4 @@
-package ru.neustupov.templater;
+package templater;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

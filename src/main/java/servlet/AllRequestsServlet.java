@@ -1,4 +1,4 @@
-package ru.neustupov.servlet;
+package servlet;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ru.neustupov.templater.PageGenerator;
+import templater.PageGenerator;
 
 public class AllRequestsServlet extends HttpServlet {
 
@@ -20,7 +20,7 @@ public class AllRequestsServlet extends HttpServlet {
     Map<String, Object> pageVariables = createPageVariablesMap(req);
     pageVariables.put("message", "");
 
-    resp.getWriter().println(PageGenerator.instance().getPage("page.html", pageVariables));
+    resp.getWriter().println(req.getParameter("key"));
 
     resp.setContentType("text/html;charset=utf-8");
     resp.setStatus(HttpServletResponse.SC_OK);
