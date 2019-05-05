@@ -26,11 +26,7 @@ public class SessionServlet extends HttpServlet {
       resp.setContentType("text/html;charset=utf-8");
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     } else {
-      Gson gson = new Gson();
-      String json = gson.toJson(profile);
-      resp.setContentType("text/html;charset=utf-8");
-      resp.getWriter().println(json);
-      resp.setStatus(HttpServletResponse.SC_OK);
+      writeOkResponse(resp, profile);
     }
   }
 
@@ -40,25 +36,21 @@ public class SessionServlet extends HttpServlet {
     String login = req.getParameter("login");
     String password = req.getParameter("password");
 
-    if(login == null || password == null){
+    if (login == null || password == null) {
       resp.setContentType("text/html;charset=utf-8");
       resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       return;
     }
 
     UserProfile userProfile = accountService.getUserByLogin(login);
-    if(userProfile == null || userProfile.getPassword().equals(password)){
+    if (userProfile == null || userProfile.getPassword().equals(password)) {
       resp.setContentType("text/html;charset=utf-8");
       resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       return;
     }
 
     accountService.addSession(req.getSession().getId(), userProfile);
-    Gson gson = new Gson();
-    String json = gson.toJson(userProfile);
-    resp.setContentType("text/html;charset=utf-8");
-    resp.getWriter().println(json);
-    resp.setStatus(HttpServletResponse.SC_OK);
+    writeOkResponse(resp, userProfile);
   }
 
   @Override
@@ -75,5 +67,14 @@ public class SessionServlet extends HttpServlet {
       resp.getWriter().println("Goodbye!");
       resp.setStatus(HttpServletResponse.SC_OK);
     }
+  }
+
+  private void writeOkResponse(HttpServletResponse resp, UserProfile userProfile)
+      throws IOException {
+    Gson gson = new Gson();
+    String json = gson.toJson(userProfile);
+    resp.setContentType("text/html;charset=utf-8");
+    resp.getWriter().println(json);
+    resp.setStatus(HttpServletResponse.SC_OK);
   }
 }
