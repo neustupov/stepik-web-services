@@ -2,6 +2,9 @@ package main;
 
 import accounts.AccountService;
 import accounts.UserProfile;
+import dbService.DBException;
+import dbService.DBService;
+import dbService.dataSets.UsersDataSet;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -15,7 +18,21 @@ public class App {
 
   public static void main(String[] args) throws Exception {
 
-    AccountService accountService = new AccountService();
+    DBService dbService = new DBService();
+    dbService.printConnectInfo();
+    try {
+      long userId = dbService.addUser("tully");
+      System.out.println("Added user id: " + userId);
+
+      UsersDataSet dataSet = dbService.getUser(userId);
+      System.out.println("User data set: " + dataSet);
+
+      dbService.cleanUp();
+    } catch (DBException e) {
+      e.printStackTrace();
+    }
+
+    /*AccountService accountService = new AccountService();
     accountService.addNewUser(new UserProfile("admin"));
     accountService.addNewUser(new UserProfile("test"));
 
@@ -33,6 +50,6 @@ public class App {
     server.setHandler(handlerList);
 
     server.start();
-    server.join();
+    server.join();*/
   }
 }
