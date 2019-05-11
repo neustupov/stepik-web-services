@@ -37,6 +37,19 @@ public class DBService {
     }
   }
 
+  public UsersDataSet getUser(String login) throws SQLException, DBException {
+    try {
+      Session session = sessionFactory.openSession();
+      UsersDAO dao = new UsersDAO(session);
+      Long userId = dao.getUserId(login);
+      UsersDataSet dataSet = dao.get(userId);
+      session.close();
+      return dataSet;
+    } catch (HibernateException e) {
+      throw new DBException(e);
+    }
+  }
+
   public long addUser(String name) throws SQLException, DBException {
     try {
       Session session = sessionFactory.openSession();
@@ -86,8 +99,8 @@ public class DBService {
     configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
     configuration.setProperty("hibernate.connection.driver_class", "org.h2.Driver");
     configuration.setProperty("hibernate.connection.url", "jdbc:h2:./h2db");
-    configuration.setProperty("hibernate.connection.username", "root");
-    configuration.setProperty("hibernate.connection.password", "root");
+    configuration.setProperty("hibernate.connection.username", "test");
+    configuration.setProperty("hibernate.connection.password", "test");
     configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
     configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
     return configuration;

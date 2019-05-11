@@ -22,28 +22,35 @@ public class UsersDataSet implements Serializable {
   @Column(name = "name", unique = true, updatable = false)
   private String name;
 
-  @SuppressWarnings("UnusedDeclaration")
+  @Column(name = "password")
+  private String password;
+
   public UsersDataSet() {
   }
 
   @SuppressWarnings("UnusedDeclaration")
-  public UsersDataSet(long id, String name) {
+  public UsersDataSet(long id, String name, String password) {
     this.id = id;
     this.name = name;
+    this.password = password;
   }
 
   public UsersDataSet(String name) {
     this.setId(-1);
     this.setName(name);
+    this.setPassword(name);
   }
 
   public long getId() {
     return id;
   }
 
-  @SuppressWarnings("UnusedDeclaration")
   public String getName() {
     return name;
+  }
+
+  public String getPassword() {
+    return password;
   }
 
   public void setId(long id) {
@@ -52,6 +59,10 @@ public class UsersDataSet implements Serializable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   @Override
