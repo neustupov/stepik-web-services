@@ -20,8 +20,10 @@ public class AccountService {
   public UserProfile getUserByLogin(String login) {
     try {
       UsersDataSet usersDataSet = dbService.getUser(login);
-      return new UserProfile(usersDataSet.getName(), usersDataSet.getPassword());
-    } catch (SQLException|DBException e) {
+      if (usersDataSet != null) {
+        return new UserProfile(usersDataSet.getName(), usersDataSet.getPassword());
+      }
+    } catch (SQLException | DBException e) {
       e.printStackTrace();
     }
     return null;

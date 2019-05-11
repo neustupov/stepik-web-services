@@ -23,8 +23,11 @@ public class UsersDAO {
 
   public long getUserId(String name) throws SQLException {
     Criteria criteria = session.createCriteria(UsersDataSet.class);
-    return ((UsersDataSet) criteria.add(Restrictions.eq("name", name)).uniqueResult())
-        .getId();
+    UsersDataSet usersDataSet = (UsersDataSet) criteria.add(Restrictions.eq("name", name)).uniqueResult();
+    if(usersDataSet != null){
+      return usersDataSet.getId();
+    }
+    return -1;
   }
 
   public long insertUser(String name) throws SQLException {
